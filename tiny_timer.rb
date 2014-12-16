@@ -39,4 +39,8 @@ class TinyTimer
   def pr(s)
     @dev.write "|#{@n}| #{s}\n"
   end
+
+  def dev
+    @dev
+  end
 end
