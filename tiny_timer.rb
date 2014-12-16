@@ -1,4 +1,6 @@
 class TinyTimer
+  attr_reader :dev
+
   def initialize(name, dev = STDOUT, round = true)
     @round = round
     @dev = dev
@@ -33,14 +35,11 @@ class TinyTimer
   end
 
   def to_f(i)
-    @round ? i.to_f.round(2) : i
+    return i unless @round
+    i.to_f.round(2)
   end
 
   def pr(s)
-    @dev.write "|#{@n}| #{s}\n"
-  end
-
-  def dev
-    @dev
+    dev.write "|#{@n}| #{s}\n"
   end
 end

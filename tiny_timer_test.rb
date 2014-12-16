@@ -1,8 +1,6 @@
 require 'test/unit'
 require 'stringio'
 
-require 'pry'
-
 require './tiny_timer'
 
 class TinyTimerTest < Test::Unit::TestCase
@@ -20,6 +18,6 @@ class TinyTimerTest < Test::Unit::TestCase
     assert_equal "|test| Start\n", lines.first
     assert_equal "|test| foo: 0.5s\n", lines[1]
     assert_equal "|test| Total run time: 0.5s\n", lines[2]
-    assert_match /.test. foo: 99/, lines.last
+    assert_match /^.test. foo: 99.9.\%/, lines.last
   end
 end
