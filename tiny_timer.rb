@@ -1,5 +1,6 @@
 # Simple utility to measure method execution time. No fancy pants stuff.
 class TinyTimer
+  VERSION = '0.1.0'
   attr_reader :dev
 
   # @param [String] - name Name of the method, request handler etc
