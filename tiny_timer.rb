@@ -1,8 +1,12 @@
+# Simple utility to measure method execution time. No fancy pants stuff.
 class TinyTimer
   attr_reader :dev
 
-  def initialize(name, dev = STDOUT, round = true)
-    @round = round
+  # @param [String] - name Name of the method, request handler etc
+  # @param [IO] - dev file or device to print to. Default STDOUT
+  # @param [Boolean] - round,  how many dec places? Default 2
+  def initialize(name, dev = STDOUT, round = nil)
+    @round = round || 2
     @dev = dev
 
     @t = Time.now
@@ -11,6 +15,16 @@ class TinyTimer
     pr 'Start'
   end
 
+
+  # Measure a block of code and return its value
+  # So given original code:
+  #   res = get_items
+  #
+  # You should change it to:
+  #
+  #   res = timer.measure('get items') { get_items }
+  #
+  # @param [String] name
   def measure(name)
     t_local = Time.now
     r =  yield
@@ -23,22 +37,32 @@ class TinyTimer
     r
   end
 
+  # Summarize.
+  # Prints the summary to given @dev
   def summarize
     run_time = Time.now - @t
     pr "Total run time: #{to_f run_time}s"
     pr @timings.map { |k, t| "#{k}: #{p(run_time, t[:local])}" }.join(' | ')
   end
 
-  def p(b, i)
-    per = (i.to_f * 100) / b.to_f
+
+  private
+
+  # Calculate percantage of given base
+  # @param [Number] base value
+  # @param [Number] value for which we caluclate base percentage
+  def p(base, item)
+    per = (item.to_f * 100) / base.to_f
     "#{to_f per}%"
   end
 
+  # Wrapper for to_f, includes rounding
   def to_f(i)
-    return i unless @round
-    i.to_f.round(2)
+    i.to_f.round(@round)
   end
 
+  # Write given string to @dev
+  # @param [String] s
   def pr(s)
     dev.write "|#{@n}| #{s}\n"
   end

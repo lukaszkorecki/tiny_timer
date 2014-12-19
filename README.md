@@ -2,15 +2,23 @@
 
 ## Usage
 
+Add the gem:
 
+```ruby
+gem 'tiny_timer', git: 'git@github.com:lukaszkorecki/tiny_timer.git'
+                , branch: 'stable'
+
+```
+
+use in your code:
 
 
 ```ruby
 def needs_fixing
-  # marker, which IO object wrtie to, do we want rounding or not 
+  # marker, which IO object wrtie to, do we want rounding or not
   # last 2 args are defaults
-  t = TinyTimer.new('GET /documents', STDOUT, true) 
-  
+  t = TinyTimer.new('GET /documents', STDOUT, true)
+
   did_something = t.measure('some op') { do_something }
   something_else = t.measure('next op') { do_more(did_something) }
 
